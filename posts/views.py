@@ -58,13 +58,18 @@ def logout(request):
 def create_post(request):
     if request.method == 'POST':
         title = request.POST.get('title')
+        summary = request.POST.get('summary')
         content = request.POST.get('content')
         if title and content:
-            Post.objects.create(author=request.user, title=title, content = content)
+            Post.objects.create(title=title, summary = summary, content = content, author=request.user)
 
             return redirect('home')
         
     return render(request, 'posts/create_post.html')
+
+def post_details(request, post_id):
+    post = Post.objects.get(id=post_id)
+    return render(request, 'posts/post_detail.html', {'post':post})
 
 @login_required
 def profile(request):

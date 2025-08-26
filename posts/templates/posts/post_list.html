@@ -30,10 +30,12 @@
 <h2>All Posts</h2>
 {% for post in posts %}
     <div style="border:1px solid #ccc; padding:5px; margin:5px;">
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.content }}</p>
+        <h3>
+            <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+        </h3>
+        <p>{{ post.summary }}</p>
         <small>By {{ post.author.username }} at {{ post.created_at }}</small>
     </div>
 {% empty %}
-    <p>No posts yet.</p>
+    <p>No posts yet, you be the first!</p>
 {% endfor %}

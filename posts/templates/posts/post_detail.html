@@ -1,0 +1,8 @@
+<h2>{{ post.title }}</h2>
+<p><strong>Summary:</strong> {{ post.summary }}</p>
+<hr>
+<p>{{ post.content }}</p>
+<small>By {{ post.author.username }} at {{ post.created_at }}</small>
+
+<br><br>
+<a href="{% url 'home' %}">⬅ Back to Home</a>

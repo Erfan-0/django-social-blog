@@ -3,7 +3,11 @@
 <form method="POST">
     {% csrf_token %} 
     <input type="text" name="title" placeholder="Post Title" required><br>
-    <textarea name="content" placeholder="Write something..." required></textarea><br>
+
+    <textarea name="summary" placeholder="What will be discussed? (2-3 lines)" required></textarea><br>
+
+    <textarea name="content" placeholder="Write your full content here..." rows="10" required></textarea><br>
+
     <button type="submit">Post</button>
 </form>
 
