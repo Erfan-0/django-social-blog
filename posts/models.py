@@ -2,9 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Post(models.Model):
-    title = models.CharField(max_length=200) # baraye matn koochick
-    content = models.TextField(blank=True) # baraye text haye bozorg tar. blank = khali
-    created_at = models.DateField(auto_now_add=True) # sabte zamane enteshare post
+    title = models.CharField(max_length=20) # baraye matn koochick
+    summary = models.TextField(100, default="no summary provided")
+    content = models.TextField(blank=False) # baraye text haye bozorg tar. blank = khali
+    created_at = models.DateTimeField(auto_now_add=True) # sabte zamane enteshare post
     updated_at = models.DateField(auto_now=True) # sabt zamane akharin update post
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     completed = models.BooleanField(default=False) # faghad T or F. (aya post takmil shode ya na)

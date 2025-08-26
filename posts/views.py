@@ -2,7 +2,7 @@
 
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserChangeForm, AuthenticationForm, UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout as auth_logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from . import views
@@ -49,6 +49,11 @@ def login_page(request):
         form = AuthenticationForm()     
     return render(request, 'users/login.html', {'form':form})
 
+
+def logout(request):
+    auth_logout(request)
+    return redirect('home')
+    
 @login_required                
 def create_post(request):
     if request.method == 'POST':

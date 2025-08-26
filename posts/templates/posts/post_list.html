@@ -1,13 +1,30 @@
-<h1>Posts</h1>
-
 {% if user.is_authenticated %}
-    <p>Welcome, {{ user.username }}!</p>
-    <a href="{% url 'profile' %}">Your Profile</a>
-    <a href="{% url 'create_post' %}">Create Post</a>
+    <div style="display:flex; justify-content: space-between; align-items:center; padding:10px; background:#f5f5f5; margin-bottom:20px;">
+        <div>
+            <strong>Welcome, {{ user.username }}!</strong>
+        </div>
+        <div>
+            <a href="{% url 'profile' %}">Your Profile</a>
+            <a href="{% url 'create_post' %}">Create Post</a>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
 {% else %}
-    <p>To create posts, please <a href="{% url 'login' %}">login</a> or <a href="{% url 'signup' %}">signup</a>.</p>
+     <div style="display:flex; justify-content: space-between; align-items:center; padding:10px; background:#f5f5f5; margin-bottom:20px;">
+        <div>
+            <p>
+                To create posts, please 
+                <a href="{% url 'login' %}">login</a> or 
+                <a href="{% url 'signup' %}">signup</a>.
+            </p>
+        </div>
+    </div>
 {% endif %}
 
+<h1>Posts</h1>
 <hr>
 
 <h2>All Posts</h2>
@@ -20,5 +37,3 @@
 {% empty %}
     <p>No posts yet.</p>
 {% endfor %}
-
-
