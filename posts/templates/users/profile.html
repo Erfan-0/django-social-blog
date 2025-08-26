@@ -1,9 +1,8 @@
-{% extends 'base.html' %}
-
-{% block title %} profile {% endblock %}
-
-{% block content %} 
-    <div class="row my-3 p-3">
-        <h1>this is the profile page for {{ user.username }} </h1>
+{% for post in user_posts %}
+    <div>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.summary }}</p>
+        <a href="{% url 'edit_post' post.id %}">Edit</a>
+        <a href="{% url 'delete_post' post.id %}">Delete</a>
     </div>
-{% endblock %}
+{% endfor %}

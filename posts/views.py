@@ -9,6 +9,7 @@ from . import views
 from.models import Post
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 
 def home(request):
@@ -73,9 +74,32 @@ def post_details(request, post_id):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    user_posts = Post.objects.filter(author=request.user).order_by('-created_at')
+    return render(request, 'users/profile.html', {'user_posts': user_posts})
 
 
+@login_required
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
 
+    if request.method == 'POST':
+        post.title = request.POST.get('title')
+        post.summary = request.POST.get('summary')
+        post.content = request.POST.get('content')
+        post.save()
+        return redirect('profile')
+    
+    return render(request, 'posts/edit_post.html', {'post': post})
+
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.user != post.author:
+        return HttpResponse("You are not allowed to delete this post")
+
+    post.delete()
+    return redirect('profile')
 
 

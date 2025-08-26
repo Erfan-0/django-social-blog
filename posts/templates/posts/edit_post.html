@@ -1,0 +1,10 @@
+<h2>Edit Post</h2>
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" value="{{ post.title }}" required><br>
+    <textarea name="summary" required>{{ post.summary }}</textarea><br>
+    <textarea name="content" required>{{ post.content }}</textarea><br>
+    <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'profile' %}">Back to Profile</a>
