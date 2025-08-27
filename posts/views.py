@@ -10,6 +10,7 @@ from.models import Post
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 
 def home(request):
@@ -63,8 +64,8 @@ def create_post(request):
         content = request.POST.get('content')
         if title and content:
             Post.objects.create(title=title, summary = summary, content = content, author=request.user)
-
-            return redirect('home')
+            messages.success(request,"post created successfully!")
+            return redirect('profile')
         
     return render(request, 'posts/create_post.html')
 
@@ -87,6 +88,7 @@ def edit_post(request, post_id):
         post.summary = request.POST.get('summary')
         post.content = request.POST.get('content')
         post.save()
+        messages.success(request, "Post updated successfully!")
         return redirect('profile')
     
     return render(request, 'posts/edit_post.html', {'post': post})
@@ -100,6 +102,7 @@ def delete_post(request, post_id):
         return HttpResponse("You are not allowed to delete this post")
 
     post.delete()
+    messages.success(request, "Post deleted successfully!")
     return redirect('profile')
 
 

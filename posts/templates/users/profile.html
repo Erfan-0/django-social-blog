@@ -1,8 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>My Posts</h2>
+    <a href="{% url 'home' %}" class="btn btn-primary">Show all posts in Home</a>
+</div>
+
 {% for post in user_posts %}
-    <div>
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.summary }}</p>
-        <a href="{% url 'edit_post' post.id %}">Edit</a>
-        <a href="{% url 'delete_post' post.id %}">Delete</a>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.summary }}</p>
+            <a href="{% url 'edit_post' post.id %}" class="btn btn-outline-primary">Edit</a>
+            <a href="{% url 'delete_post' post.id %}" class="btn btn-outline-danger">Delete</a>
+        </div>
     </div>
+{% empty %}
+<div class="text-center my-5 p-5 border rounded bg-light">
+    <h4 class="mb-3">you didnt create any post until this moment</h4>
+    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Go to Home</a>
+</div>
 {% endfor %}
+
+{% endblock %}
