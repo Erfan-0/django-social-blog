@@ -6,3 +6,28 @@
 
 <br><br>
 <a href="{% url 'home' %}">⬅ Back to Home</a>
+
+<h3>Comments</h3>
+
+{% if user.is_authenticated %}
+    <form method="POST" action="{% url 'add_comment' post.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-sm mt-2">Add Comment</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> to comment.</p>
+{% endif %}
+
+<hr>
+
+{% for comment in post.comments.all %}
+    <div class="mb-2">
+        <strong>{{ comment.author.username }}</strong> 
+        <small class="text-muted">{{ comment.created_at|date:"d M Y H:i" }}</small>
+        <p>{{ comment.content }}</p>
+    </div>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
