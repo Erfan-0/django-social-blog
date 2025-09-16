@@ -1,5 +1,3 @@
-# TODO: bayad iin emkan ro faraham konam ke betoonan khodeshoon add konan yek post ro.
-
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserChangeForm, AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, authenticate, logout as auth_logout
@@ -13,7 +11,6 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from .models import Post, Comment
 from .forms import CommentForm
-
 
 
 

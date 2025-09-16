@@ -31,6 +31,7 @@
             <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
         </h3>
         <p>{{ post.summary }}</p>
+        <p>{{ post.content|truncatewords:5 }}</p>
         <small>By {{ post.author.username }} at {{ post.created_at }}</small>
     </div>
 {% empty %}
