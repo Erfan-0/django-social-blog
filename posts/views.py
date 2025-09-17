@@ -13,9 +13,8 @@ from .models import Post, Comment
 from .forms import CommentForm
 
 
-
-def home(request):
-    posts = Post.objects.all().order_by('-created_at')
+def home(request): 
+    posts = Post.objects.all().order_by('-created_at') # hame post ha ro migigre az Post va be tartin jadid tarin ha ro neshoon mide".order_by('-created_at')"
     return render(request, 'posts/post_list.html', {'posts':posts}) 
     
 

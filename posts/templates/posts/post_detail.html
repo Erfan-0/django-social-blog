@@ -2,32 +2,32 @@
 <p><strong>Summary:</strong> {{ post.summary }}</p>
 <hr>
 <p>{{ post.content }}</p>
-<small>By {{ post.author.username }} at {{ post.created_at }}</small>
+<small>By {{ post.author.username }} at {{ post.created_at }}</small> 
 
-<br><br>
-<a href="{% url 'home' %}">⬅ Back to Home</a>
+
+<a href="{% url 'home' %}">⬅ Back to Home</a> <!--'home' dar vaghe esmiye ke be yek url eshare mikone ke tooye urls.py tarif shode-->
 
 <h3>Comments</h3>
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated %} <!--age user login karde bood iin kar ha ro bokon:--> 
     <form method="POST" action="{% url 'add_comment' post.id %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary btn-sm mt-2">Add Comment</button>
     </form>
-{% else %}
-    <p><a href="{% url 'login' %}">Login</a> to comment.</p>
+{% else %} <!--age login nakarde bood:-->
+    <p><a href="{% url 'login' %}">Login</a> to comment.</p> <!--login link dar mishe ke zadi roosh bere be safhe login. 'login' dar vaghe esmiye ke be yek url eshare mikone ke tooye urls.py tarif shode-->
 {% endif %}
 
 <hr>
 
-{% for comment in post.comments.all %}
+{% for comment in post.comments.all %} <!--hame comment ha ro migire-->
     <div class="mb-2">
-        <strong>{{ comment.author.username }}</strong> 
-        <small class="text-muted">{{ comment.created_at|date:"d M Y H:i" }}</small>
-        <p>{{ comment.content }}</p>
+        <strong>{{ comment.author.username }}</strong> <!--nevisande comment ro neshoon mide-->
+        <small class="text-muted">{{ comment.created_at|date:"d M Y H:i" }}</small> <!--tarikh comment ro mizane-->
+        <p>{{ comment.content }}</p> <!--iinja matne kamele comment ro neshoon mididm-->
     </div>
-{% empty %}
-    <p>No comments yet.</p>
+{% empty %} <!--age hich commenti vojood nadasht:--> <!--daghigh tar begam, empty vaghti ejra mishe ke halghe for hiciz nadashte bashe ke bekhad roosh halghe bezane va khali bashie-->
+    <p>No comments yet.</p> <!--mige hanooz commenti post nashode-->
 {% endfor %}
 

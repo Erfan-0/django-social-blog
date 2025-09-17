@@ -41,8 +41,9 @@ class Profile(models.Model):
 
 from django.apps import AppConfig # AppConfig mesle modire yek sakhtemoone ke mitoone App ro midiriyat kone
 
+# iin class baraye iine ke app betoone modiriyat beshe bad az har taghiri(ex: user vared shod, folan kar ro bokon, post sakhte shod, folan kar ro bokon va...)
 class UserConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
+    default_auto_field = 'django.db.models.BigAutoField' # iin khodesh miyad Primary key ro auto auto add mikone 
     name = 'users' # iin yek esme baraye iine ke Django befahme iin yek iin tanzimati ke modire sakhtemoon(AppConfig) marboot ke kodoom app hast
 
     def ready(self): # djagno vaghti app ro kamel bargozari kard iin tabe ro seda mizane, yani vaghti hame chiz tamoosh shod iinja mitooni ye kari anjam bedi. masalan ma tooye khate badi bebin chi goftim

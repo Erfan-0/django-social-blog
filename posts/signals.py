@@ -8,7 +8,7 @@ from .models import Profile
 @receiver(post_save, sender=User)
 def create_profile(instance, created): # created = True OR False. isntance = Useri ke sabtename mikone
     if created:
-        Profile.objects.create(user = instance) # iija daghighan miyad yek profile baray user jadid misaze
+        Profile.objects.create(user = instance) # iija daghig   han miyad yek profile baray user jadid misaze
 
 # iinja user age taze vared beshe ya profile ro edit kone save mikone oon ro.
 @receiver(post_save, sender=User)      
