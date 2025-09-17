@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 
 class Post(models.Model):
     title = models.CharField(max_length=20) # baraye matn koochick
-    summary = models.TextField(100, default="no summary provided")
+    summary = models.CharField(max_laength=70, default="no summary provided") # age hichi nazari minevise: no summary provided
     content = models.TextField(blank=False) # baraye text haye bozorg tar. blank = khali
     created_at = models.DateTimeField(auto_now_add=True) # sabte zamane enteshare post
     updated_at = models.DateField(auto_now=True) # sabt zamane akharin update post
-    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1) #expl: pedar age hazf beshe bache hasham mimiran. iinja User age hazf beshe tamame vabastegi ha az jomle post user hazf mishe.
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1) #expl: pedar age hazf beshe bache hasham mimiran. iinja author age hazf beshe tamame vabastegi ha az jomle post user hazf mishe(.CASCADE)  
     completed = models.BooleanField(default=False) # faghad T or F. (aya post takmil shode ya na)
 
 #namayeshe reshte az yek shey.
@@ -18,7 +18,7 @@ def __str__(self):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name= 'comments') # pedar age hazf beshe bache hasham mimiran. iinja Post age hazf beshe tamame vabastegi ha mesle comment hazf mishe. related_name= 'comments' baesh mishe ke ma betoonim iintori az tarighe post be comment ha dastresi dashte bashim: comments = Post.comments.all()       
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'comments_authored')# mesle line balaei. ba iin tafavot ke iinja az tarighe comment haei ke user neveshte ro mitooni beheshoon dasresi dashte bashi iintori: user.comments_authored.all()                                     
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'comments_authored')#  nevisande commnet(ke hamoon user ma hast) hazf beshe comment hash ham hazf mishan. iinja az tarighe comment haei ke user neveshte ro mitooni beheshoon dasresi dashte bashi iintori: user.comments_authored.all()                                     
     content = models.TextField(max_length=3000) # text feilld, baraye matn haye nesbatan bozorg
     title = models.TextField(max_length=200) # '''
     created_at = models.DateTimeField(auto_now_add=True) # modat zamane ijad shodane yek post ro migire va oon ro ba "auto_now_add=True" auto add mikone  
@@ -44,14 +44,14 @@ class Profile(models.Model):
         return self.user.username # ASK MOHSEN, IDKRN
 
 
-from django.apps import AppConfig
+from django.apps import AppConfig # AppConfig mesle modire yek sakhtemoone ke mitoone App ro midiriyat kone
 
 class UserConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'users'
+    name = 'users' # iin yek esme baraye iine ke Django befahme iin yek iin tanzimati ke modire sakhtemoon(AppConfig) marboot ke kodoom app hast
 
-    def ready(self):
-        import users.signals
+    def ready(self): # djagno vaghti app ro kamel bargozari kard iin tabe ro seda mizane, yani vaghti hame chiz tamoosh shod iinja mitooni ye kari anjam bedi. masalan ma tooye khate badi bebin chi goftim
+        import users.signals #  iinja goftim ke bad ke App kare khodesh ro anjam dad, signals.py ejra beshe ke age beri bebini, marboot be sakhte profile baraye user hast 
 
 
 
