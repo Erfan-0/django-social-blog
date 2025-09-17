@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Post(models.Model):
     title = models.CharField(max_length=20) # baraye matn koochick
-    summary = models.CharField(max_laength=70, default="no summary provided") # age hichi nazari minevise: no summary provided
+    summary = models.CharField(max_length=70, default="no summary provided") # age hichi nazari minevise: no summary provided
     content = models.TextField(blank=False) # baraye text haye bozorg tar. blank = khali
     created_at = models.DateTimeField(auto_now_add=True) # sabte zamane enteshare post
     updated_at = models.DateField(auto_now=True) # sabt zamane akharin update post
@@ -20,7 +20,6 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name= 'comments') # pedar age hazf beshe bache hasham mimiran. iinja Post age hazf beshe tamame vabastegi ha mesle comment hazf mishe. related_name= 'comments' baesh mishe ke ma betoonim iintori az tarighe post be comment ha dastresi dashte bashim: comments = Post.comments.all()       
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'comments_authored')#  nevisande commnet(ke hamoon user ma hast) hazf beshe comment hash ham hazf mishan. iinja az tarighe comment haei ke user neveshte ro mitooni beheshoon dasresi dashte bashi iintori: user.comments_authored.all()                                     
     content = models.TextField(max_length=3000) # text feilld, baraye matn haye nesbatan bozorg
-    title = models.TextField(max_length=200) # '''
     created_at = models.DateTimeField(auto_now_add=True) # modat zamane ijad shodane yek post ro migire va oon ro ba "auto_now_add=True" auto add mikone  
 
     def __str__(self):
