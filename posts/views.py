@@ -23,7 +23,7 @@ def signup(request):
     if request.method == 'POST': # age user dokme signup ro zad(form ersal karde bood(form zamani ejra mishe ke user feild haye marboot be signup kardan ro dorost por karde bashe va taeid shode bashe)) iin etefagh miyofte:
         form = UserCreationForm(request.POST) # iin form ma hast. UserCrationForm form amade khode django hast ke chiz haei mesle username, password va... ro dar khodesh dare ma iinja tooye (request.POST) migi oon chiz haei ke dari mesle username, possword va... ro barabar gharar bede be oon chizi ke user vared karde. va hala dige form ma takmil mishe vali hanooz check nashode ke bebinim dorost por karde ya na. berim khate bad bebinim 
         if form.is_valid(): # iinja check mishe aya etelaate form dorost va motabare ya na(masalan aya form kamel hast?, password ghavi hast? username tekrari nist?)
-            user = form.save() # age form motabar bashe user jadid ro save mikone tooye data base
+            user = form.save() # jalebe begam ke iinjast ke khodesh password ro hash shode save imkone. age form motabar bashe user jadid ro save mikone tooye data base
             login(request, user) # iin khat baes mishe ke niyaz nabashe user bad az singuo bere login kone. khodesh login ro barash anjam mide!
             return redirect('home') # bad az hame iin kar ha. iin khat az code, user ro be home hedayat mikone
         else:
@@ -32,25 +32,25 @@ def signup(request):
         form = UserCreationForm() # age user hanooz form ro nafrestade(request.method karbar barabar ba POST nabashe) miyad form khali ijad mikone ke user poresh kone va singup bokone
     return render(request, 'users/signup.html', {'form':form}) # che form valid bashe che invalid, signup.html ro neshoon mide ke gahleb ha namayesh dade beshan va user form ha ro bebine
 
-
+# ASK MOHSEN: AuthenticationForm farghesh ba form.is_vali chiye? mage har dotashooon marboot ke iinke check konan bebinan username va password user ba chizi ke tooye db hast barabar hastan ya na?
 def login_page(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, email=email, password=password)
-            if user is not None:
+    if request.method == 'POST': # age user form ersal karde bood
+        form = AuthenticationForm(request, data=request.POST) # AuthenticationForm yek form amade shode Django hast ke etelaate form ke tooye data base hast ro check mikone bebine yeki hastan va hamkhooni daran ya na. "data=request.POST" iinja dataei ke bayad barresi beshe ro barabr gharar dadim be etelaati ke user POST mikone baramoon
+        if form.is_valid(): # valid boodane formi ke user ersal karde
+            username = form.cleaned_data.get('username') # ASK MOHSEN
+            password = form.cleaned_data.get('password') # ASK MOHSEN
+            user = authenticate(username=username, password=password) # iinja djagno barresi mikone ke aya username va password kham ke user neveshte ba password hash shode  dakhele db hamkhooni dare ya na. age hamahang bashe ye shey barmigardoone(iintori: <User: erfan>, Password: HASH PASSWORD. hata barreso mikone ke iin user staff hast ya na) barmigardoone. age hamahang nabashe None barmigardoone
+            print(user.password)
+            if user is not None: # age user(hamoon user ke too khate bala tarif kardim) motabar bood(None nabashe yani ye shey bargardoonde va motabare)
                 login(request, user)
-                return redirect('home')
-            else:
-                messages.error(request, "invalid username or password")
-        else:
-            messages.error(request, "invalid form data")    
-    else:
-        form = AuthenticationForm()     
-    return render(request, 'users/login.html', {'form':form})
+                return redirect('home') # redirect be home
+            else: # age None bood(invalid bood)
+                messages.error(request, "invalid username or password") # error
+        else: # yani dar soorati ke request.method == 'GET' bashe
+            messages.error(request, "invalid form data")  # error dar soorate invalid boodane form  
+    else: # yani dar soorati ke 
+        form = AuthenticationForm() # agar hanooz formi ijad nashode, form khali mifreste user oon ro por kone 
+    return render(request, 'users/login.html', {'form':form}) # che form valid bashe che invalid, login.html ro neshoon mide ke gahleb ha namayesh dade beshan va user form ha ro bebine
 
 
 def logout(request):
