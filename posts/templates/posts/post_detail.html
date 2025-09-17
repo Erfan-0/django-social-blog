@@ -21,7 +21,7 @@
 
 <hr>
 
-{% for comment in post.comments.all %} <!--hame comment ha ro migire-->
+{% for comment in post.comments.all %} <!--hame comment ha ro migire ta be tarib neshoon bede-->
     <div class="mb-2">
         <strong>{{ comment.author.username }}</strong> <!--nevisande comment ro neshoon mide-->
         <small class="text-muted">{{ comment.created_at|date:"d M Y H:i" }}</small> <!--tarikh comment ro mizane-->
