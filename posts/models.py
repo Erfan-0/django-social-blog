@@ -26,11 +26,7 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.author.username} - {self.content[:20]}" # az author, username ro migire va neshoon mide
 
-class User(models.Model):
-    username = models.CharField(max_length=25) # username
-    password = models.CharField(max_length=200) # password  
-    email = models.EmailField(max_length=200, null=True) # email: mitoone khali bashe
-    
+
 
 def __str__(self):
     return self.username # ASK MOHSEN, IDKRN
