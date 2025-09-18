@@ -41,11 +41,11 @@ def login_page(request):
             password = form.cleaned_data.get('password') # ASK MOHSEN
             user = authenticate(username=username, password=password) # iinja djagno barresi mikone ke aya username va password kham ke user neveshte ba password hash shode  dakhele db hamkhooni dare ya na. age hamahang bashe ye shey barmigardoone(iintori: <User: erfan>, Password: HASH PASSWORD. hata barreso mikone ke iin user staff hast ya na) barmigardoone. age hamahang nabashe None barmigardoone
             if user is not None: # age user(hamoon user ke too khate bala tarif kardim) motabar bood(None nabashe yani ye shey bargardoonde va motabare)
-                login(request, user)
-                next_url = request.GET.get('next')
-                if next_url:
-                    return redirect(next_url)
-                return redirect('home') # redirect be home
+                login(request, user) # session baraye user misaze 
+                next_url = request.GET.get('next') # age user login nakarde bashe va bekhad kari ro anjam bede ke be login kardan niyaz dare(mesle sakhte post). django miyad masalan url ro iintori mikone: "/login/?next=/create/" yani mibaratesh be login page ke aval login kone badesh mibaratesh be oon url ke user ghabl az login kardan darkhast karde bood(/create)           
+                if next_url: # agar next_url vojood dasht
+                    return redirect(next_url) # ye jooraei mige: hala ke vared shodi, befarma iinam hamoonjaei ke mikhasti beri
+                return redirect('home') # iin dar soorati etefagh miyofte ke next_url vojood nadashte bashe va user mostaghim oomade ke login kone. pas bad az iinke login kard redirectesh mikonim be 'home'
             else: # age None bood(invalid bood)
                 messages.error(request, "invalid username or password") # error
         else: # yani dar soorati ke request.method == 'GET' bashe
