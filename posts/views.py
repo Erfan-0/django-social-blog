@@ -86,17 +86,16 @@ def profile(request):
 
 @login_required
 def edit_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-
-    if request.method == 'POST':
-        post.title = request.POST.get('title')
-        post.summary = request.POST.get('summary')
-        post.content = request.POST.get('content')
-        post.save()
-        messages.success(request, "Post updated successfully!")
-        return redirect('profile')
+    post = get_object_or_404(Post, id=post_id) # id post ro migire va age natoonest be har dalili peydash kone error 404 mide
+    if request.method == 'POST': # age request post bood
+        post.title = request.POST.get('title') # title ro migire 
+        post.summary = request.POST.get('summary') #---
+        post.content = request.POST.get('content')#---
+        post.save() # save post in DB
+        messages.success(request, "Post updated successfully!") #---
+        return redirect('profile') #--
     
-    return render(request, 'posts/edit_post.html', {'post': post})
+    return render(request, 'posts/edit_post.html', {'post': post}) # ghaleb ro neshoon mide(edit_post.html)
 
 
 @login_required
