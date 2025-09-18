@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# iin class tooye DB id ro ham dare ke khode djagno vasash gharar mide. yani iintori: (link: https://postimg.cc/K3MHMC9S)
 class Post(models.Model):
     title = models.CharField(max_length=20) # baraye matn koochick
     summary = models.CharField(max_length=70, default="no summary provided") # age hichi nazari minevise: no summary provided

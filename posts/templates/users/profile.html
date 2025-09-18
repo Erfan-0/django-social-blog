@@ -6,19 +6,19 @@
     <a href="{% url 'home' %}" class="btn btn-primary">Show all posts in Home</a>
 </div>
 
-{% for post in user_posts %}
+{% for post in user_posts %} <!--tooye post haye user halghe mizane ke neshooneshoon bede-->
     <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ post.title }}</h5>
-            <p class="card-text">{{ post.summary }}</p>
-            <a href="{% url 'edit_post' post.id %}" class="btn btn-outline-primary">Edit</a>
-            <a href="{% url 'delete_post' post.id %}" class="btn btn-outline-danger">Delete</a>
+        <div class="card-body"> <!--iin card ha baraye bootstrap hastan ke khoshgel tareshoon kone-->
+            <h5 class="card-title">{{ post.title }}</h5> <!--post.title ro toonestim begim chon user_posts ro farakhani kardim va post zir majmooe user_posts hast ke yeki az post ha mahsoob mishe-->
+            <p class="card-text">{{ post.summary }}</p> <!--///-->
+            <a href="{% url 'edit_post' post.id %}" class="btn btn-outline-primary">Edit</a> <!--iin dokme Edit hast ke eshare mikone be urlei be esme edit_post tooye urls.py. ke dar vaghe beehsh mige boro oonja vaghti zad rooye dokme edit-->
+            <a href="{% url 'delete_post' post.id %}" class="btn btn-outline-danger">Delete</a> <!--///-->
         </div>
     </div>
-{% empty %}
+{% empty %} <!--age post khali bood(yani user hich posti nasakhte bood va profilesh posti baraye namayesh nadasht) miyad iin ha ro ejra mikone:-->
 <div class="text-center my-5 p-5 border rounded bg-light">
     <h4 class="mb-3">you didnt create any post until this moment</h4>
-    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Go to Home</a>
+    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Go to Home</a> <!--Go to home ro ham ke bezane mibaratesh be home az tarighe hamoon url ke tooye models.py tarif shode-->
 </div>
 {% endfor %}
 

@@ -1,3 +1,5 @@
+# TODO: baraye comment gozashtan niyaz be login hast. bad az login bayad user ro redirect kone be safhe comment ke comment ro benevise. na iinke redirectesh kone be home
+
 from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, authenticate, logout as auth_logout
@@ -42,7 +44,7 @@ def login_page(request):
             user = authenticate(username=username, password=password) # iinja djagno barresi mikone ke aya username va password kham ke user neveshte ba password hash shode  dakhele db hamkhooni dare ya na. age hamahang bashe ye shey barmigardoone(iintori: <User: erfan>, Password: HASH PASSWORD. hata barreso mikone ke iin user staff hast ya na) barmigardoone. age hamahang nabashe None barmigardoone
             if user is not None: # age user(hamoon user ke too khate bala tarif kardim) motabar bood(None nabashe yani ye shey bargardoonde va motabare)
                 login(request, user) # session baraye user misaze 
-                next_url = request.GET.get('next') # age user login nakarde bashe va bekhad kari ro anjam bede ke be login kardan niyaz dare(mesle sakhte post). django miyad masalan url ro iintori mikone: "/login/?next=/create/" yani mibaratesh be login page ke aval login kone badesh mibaratesh be oon url ke user ghabl az login kardan darkhast karde bood(/create)           
+                next_url = request.GET.get('next') # age user login nakarde bashe va bekhad kari ro anjam bede ke be login kardan niyaz dare(mesle sakhte post). django miyad masalan url ro iintori mikone: "/login/?next=/create/" yani mibaratesh be login page ke aval login kone badesh mibaratesh be oon url ke user ghabl az login kardan darkhast karde bood(/create) (kholase barresi mikone aya user maghsade khasi dashte ke dare login mikone ya mostaghim oomade login ro anjam bede)        
                 if next_url: # agar next_url vojood dasht
                     return redirect(next_url) # ye jooraei mige: hala ke vared shodi, befarma iinam hamoonjaei ke mikhasti beri
                 return redirect('home') # iin dar soorati etefagh miyofte ke next_url vojood nadashte bashe va user mostaghim oomade ke login kone. pas bad az iinke login kard redirectesh mikonim be 'home'
@@ -72,14 +74,14 @@ def create_post(request):
         
     return render(request, 'posts/create_post.html') # be mahze erjar shodane iin tabe ma hamzaman create_post.html ham neshoon dade mishe ke ghaleb vojood dashte bashe va beshe did 
 
-def post_details(request, post_id):
-    post = Post.objects.get(id=post_id)
-    return render(request, 'posts/post_detail.html', {'post':post})
+def post_details(request, post_id): 
+    post = Post.objects.get(id=post_id) # Post, hamoon post hast ke tooye models.py tarif kardim. hala ma mikham az tooye iin Post, berim tooye DB. chejoori? ba 'Object()'. pas Post.object() object yani boro tooye data base bakhshe post. chand ta feild sotooni dare hamoontor ke tooye aks(https://postimg.cc/K3MHMC9S) didi. ma az oon feild id ro barmidarim va oon ro = post_id gharar midim. 
+    return render(request, 'posts/post_detail.html', {'post':post}) # namayeshe ghalebe html az post_detail.html
 
-@login_required
+@login_required # login ejbari
 def profile(request):
-    user_posts = Post.objects.filter(author=request.user).order_by('-created_at')
-    return render(request, 'users/profile.html', {'user_posts': user_posts})
+    user_posts = Post.objects.filter(author=request.user).order_by('-created_at') # ma ba Post.objects.filter mitoonim post ro bar asase oon chizi ke mikhaym filter konim ke faghat oona ro behemoon neshoon bede. masalan iinja goftim "Post.objects.filter(author=request.user)" iin post ha ro bar asase nevisande haye post filter mikone. yani faghat post haye nevisandei ro neshoon bede ke request dade. ke iin baes mishe dar bakhshe profile, user faghat post haye khodesh ro bebine va beheshoon dastresi dashte bashe. va dar akhra ma '.order_by('-created_at')' ro ezafe kardim ke baes mishe post ha ro az jadid tarin be ghadimi tarin, neshoon bede
+    return render(request, 'users/profile.html', {'user_posts': user_posts}) # ghalebe html ro ma iinja darim. user_posts ro ham farakhani kardim ke betoonim tooye profile.html azash estefade konim.
 
 
 @login_required
