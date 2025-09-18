@@ -40,9 +40,11 @@ def login_page(request):
             username = form.cleaned_data.get('username') # ASK MOHSEN
             password = form.cleaned_data.get('password') # ASK MOHSEN
             user = authenticate(username=username, password=password) # iinja djagno barresi mikone ke aya username va password kham ke user neveshte ba password hash shode  dakhele db hamkhooni dare ya na. age hamahang bashe ye shey barmigardoone(iintori: <User: erfan>, Password: HASH PASSWORD. hata barreso mikone ke iin user staff hast ya na) barmigardoone. age hamahang nabashe None barmigardoone
-            print(user.password)
             if user is not None: # age user(hamoon user ke too khate bala tarif kardim) motabar bood(None nabashe yani ye shey bargardoonde va motabare)
                 login(request, user)
+                next_url = request.GET.get('next')
+                if next_url:
+                    return redirect(next_url)
                 return redirect('home') # redirect be home
             else: # age None bood(invalid bood)
                 messages.error(request, "invalid username or password") # error
@@ -54,21 +56,21 @@ def login_page(request):
 
 
 def logout(request):
-    auth_logout(request)
+    auth_logout(request) # auth_logout, tabe amade django hast ke miyad session user ro pak mikone va iin baes mishe ke logout kone 
     return redirect('home')
-    
-@login_required                
+
+@login_required # be iin migim decorator. be iin mani ke faghat user haei ke login kardan mitoonan iin safhe ro bebinan. age kasi login nakarde bashe django khodesh mifrestatesh be safhe vorood ke login kone                 
 def create_post(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        summary = request.POST.get('summary')
-        content = request.POST.get('content')
-        if title and content:
-            Post.objects.create(title=title, summary = summary, content = content, author=request.user)
-            messages.success(request,"post created successfully!")
-            return redirect('profile')
+    if request.method == 'POST': # age user ye form ro ersal kard
+        title = request.POST.get('title') # title ro az form html migire va = title garar mide
+        summary = request.POST.get('summary') # get summary from html form
+        content = request.POST.get('content') # get content from html form
+        if title and content: # agar title va content vojood dashtand. summary ham chon ekhtiyariye check nemishe
+            Post.objects.create(title=title, summary = summary, content = content, author=request.user) # post ro misaze va meghdar haei ke dare ro barabar gharar mide ba chiz haei ke user vared karde
+            messages.success(request,"post created successfully!") # success message bad az sakhte post
+            return redirect('profile') # bad az sakhte post ma iinja user ro be safhe marboot be profile redirect mikonim
         
-    return render(request, 'posts/create_post.html')
+    return render(request, 'posts/create_post.html') # be mahze erjar shodane iin tabe ma hamzaman create_post.html ham neshoon dade mishe ke ghaleb vojood dashte bashe va beshe did 
 
 def post_details(request, post_id):
     post = Post.objects.get(id=post_id)
