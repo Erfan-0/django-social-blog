@@ -50,9 +50,9 @@ def login_page(request):
                 return redirect('home') # iin dar soorati etefagh miyofte ke next_url vojood nadashte bashe va user mostaghim oomade ke login kone. pas bad az iinke login kard redirectesh mikonim be 'home'
             else: # age None bood(invalid bood)
                 messages.error(request, "invalid username or password") # error
-        else: # yani dar soorati ke request.method == 'GET' bashe
+        else: # dar soorati ke form valid nabood
             messages.error(request, "invalid form data")  # error dar soorate invalid boodane form  
-    else: # yani dar soorati ke 
+    else: # yani dar soorati ke request.method == 'GET' bashe
         form = AuthenticationForm() # agar hanooz formi ijad nashode, form khali mifreste user oon ro por kone 
     return render(request, 'users/login.html', {'form':form}) # che form valid bashe che invalid, login.html ro neshoon mide ke gahleb ha namayesh dade beshan va user form ha ro bebine
 
@@ -102,7 +102,7 @@ def edit_post(request, post_id):
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
-    if request.user != post.author:
+    if request.user != post.author: # mikhaym motmaen beshim ke user, form khodesh ro taghir bede na kase digei ro
         return HttpResponse("You are not allowed to delete this post")
 
     post.delete()
@@ -113,16 +113,16 @@ def delete_post(request, post_id):
 def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
+    if request.method == 'POST': #---
+        form = CommentForm(request.POST) #
         if form.is_valid():
             comment = form.save(commit=False)
             comment.author = request.user
-            comment.post = post
+            comment.post = post # commnet marboot be oon post
             comment.save()
             messages.success(request, "Comment added successfully!")
             return redirect('post_detail', post_id=post.id)
     else:
-        form = CommentForm()
+        form = CommentForm() # iin yani ke request get bood biya iin form ro vasash beferest
 
     return render(request, 'posts/post_detail.html', {'post': post, 'form': form})            
