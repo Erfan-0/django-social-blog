@@ -1,2 +1,2 @@
 # Django Social Blog
-A simple Django-based social blog where users can create posts, comment, and manage their profiles with login and logout features
+A clean and simple Django blog app with user profiles, post management (create, edit, delete), comments, and authentication.
